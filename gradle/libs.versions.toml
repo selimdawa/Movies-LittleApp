@@ -22,7 +22,7 @@ navigationUiKtx = "2.5.3"
 preferenceKtx = "1.2.1"
 legacySupportV4 = "1.0.0"
 retrofit = "3.0.0"
-roomKtx = "2.5.1"
+roomKtx = "2.8.4"
 
 [libraries]
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
