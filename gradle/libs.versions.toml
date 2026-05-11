@@ -2,7 +2,7 @@
 agp = "9.2.1"
 cardview = "1.0.0"
 coreKtx = "1.18.0"
-fragmentKtx = "1.5.7"
+fragmentKtx = "1.8.9"
 glide = "5.0.7"
 kotlin = "2.3.21"
 junit = "4.13.2"
