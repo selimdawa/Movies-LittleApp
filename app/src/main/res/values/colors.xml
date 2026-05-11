@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#fff</color>
+    //Needed
+    <color name="dark">#000000</color>
+    <color name="black">#212121</color>
+    <color name="white">#ffffff</color>
+    <color name="image_profile">#e0e0e0</color>
+    <color name="red">#F44336</color>
+    //Day Theme
+    <color name="basic_2">#3c415e</color>
+    <color name="basic_night">#999999</color>
+
 </resources>
