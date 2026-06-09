@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
+    alias(libs.plugins.ksp.processor)
 }
 
 android {
@@ -57,6 +57,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.cardview)
+    implementation(libs.glide)                          //Glide Image
+    ksp(libs.glide.ksp)                                 //Glide Compiler
     //Life Cycle
     implementation(libs.androidx.lifecycle.extensions1)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -75,8 +77,5 @@ dependencies {
     implementation(libs.androidx.room.ktx)              //Room Kotlin
     implementation(libs.androidx.room.runtime)          //Room
     annotationProcessor(libs.androidx.room.compiler)    //Room Compiler
-    kapt(libs.androidx.room.compiler)                   //Room Compiler
-    //Needed
-    implementation(libs.glide)
-    annotationProcessor(libs.compiler)
+    ksp(libs.androidx.room.compiler)                   //Room Compiler
 }
