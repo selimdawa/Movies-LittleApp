@@ -12,20 +12,19 @@ import com.littleapp.movies.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {
 
-    private var binding: ActivitySplashBinding? = null
-    var context: Context = this@SplashActivity
+    private lateinit var binding: ActivitySplashBinding
+    private val context: Context = this@SplashActivity
 
-    var time_per_second = 2
-    var time_final = time_per_millis * time_per_second
+    private val timePerSecond = 2
+    private val timeFinal = TIME_PER_MILLIS * timePerSecond
 
     override fun onCreate(savedInstanceState: Bundle?) {
         THEME.setThemeOfApp(context)
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
-        val view = binding!!.root
-        setContentView(view)
+        setContentView(binding.root)
 
-        Handler(Looper.getMainLooper()).postDelayed({ launch() }, time_final.toLong())
+        Handler(Looper.getMainLooper()).postDelayed({ launch() }, timeFinal.toLong())
     }
 
     private fun launch() {
@@ -34,6 +33,6 @@ class SplashActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val time_per_millis = 1000
+        private const val TIME_PER_MILLIS = 1000
     }
 }

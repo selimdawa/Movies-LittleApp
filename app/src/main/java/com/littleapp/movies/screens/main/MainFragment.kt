@@ -6,31 +6,34 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.findNavController
 import com.littleapp.movies.R
 import com.littleapp.movies.Unit.DATA
-import com.littleapp.movies.Unit.DATA.MAIN
 import com.littleapp.movies.databinding.FragmentMainMovieBinding
-import com.littleapp.movies.models.MovieItemModel
 
 class MainFragment : Fragment() {
 
-    private var mBinding: FragmentMainMovieBinding? = null
-    private val binding get() = mBinding!!
-    lateinit var recyclerView: RecyclerView
-    private val adapter by lazy { MainAdapter() }
+    private var _binding: FragmentMainMovieBinding? = null
+    private val binding get() = _binding!!
+
+    private val adapter by lazy {
+        MainAdapter { movie ->
+            val bundle = Bundle().apply {
+                putSerializable("movie", movie)
+            }
+            findNavController().navigate(R.id.action_mainFragment_to_detailFragment, bundle)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
-        mBinding = FragmentMainMovieBinding.inflate(inflater, container, false)
-        setHasOptionsMenu(true)
+        _binding = FragmentMainMovieBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         init()
     }
 
@@ -38,28 +41,27 @@ class MainFragment : Fragment() {
         binding.toolbar.nameSpace.text = DATA.MOVIE
         binding.toolbar.imageLeft.visibility = View.VISIBLE
         binding.toolbar.imageLeft.setImageResource(R.drawable.ic_baseline_favorite_24)
+
         binding.toolbar.imageLeft.setOnClickListener {
-            MAIN.navController.navigate(R.id.action_mainFragment_to_favoriteFragment)
+            findNavController().navigate(R.id.action_mainFragment_to_favoriteFragment)
         }
+
+        binding.rvMain.adapter = adapter
 
         val viewModel = ViewModelProvider(this)[MainFragmentViewModel::class.java]
         viewModel.initDatabase()
-        recyclerView = binding.rvMain
-        recyclerView.adapter = adapter
         viewModel.getMoviesRetrofit()
-        viewModel.myMovies.observe(viewLifecycleOwner) { list -> adapter.setList(list.body()!!.results) }
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mBinding = null
-    }
-
-    companion object {
-        fun clickMovie(model: MovieItemModel) {
-            val bundle = Bundle()
-            bundle.putSerializable("movie", model)
-            MAIN.navController.navigate(R.id.action_mainFragment_to_detailFragment, bundle)
+        viewModel.myMovies.observe(viewLifecycleOwner) { response ->
+            val moviesBody = response?.body()
+            if (moviesBody != null) {
+                adapter.listMovies = moviesBody.results
+            }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -33,7 +33,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
-        dataBinding = true
+        viewBinding = true
     }
 }
 
@@ -49,8 +49,8 @@ dependencies {
     //Layout
     implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
+    //Image
     implementation(libs.glide)                          //Glide Image
-    ksp(libs.glide.ksp)                                 //Glide Compiler
     //Life Cycle
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     //Navigation

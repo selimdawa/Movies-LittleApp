@@ -1,19 +1,22 @@
 package com.littleapp.movies
 
 import android.content.Context
+import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 
 class SaveShared {
 
     companion object {
         fun setFavorite(context: Context, key: String, value: Boolean) {
-            val setFavoriteShared = PreferenceManager.getDefaultSharedPreferences(context)
-            setFavoriteShared.edit().putBoolean(key, value).apply()
+            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+            sharedPreferences.edit {
+                putBoolean(key, value)
+            }
         }
 
         fun getFavorite(context: Context, key: String): Boolean {
-            val getFavoriteShared = PreferenceManager.getDefaultSharedPreferences(context)
-           return getFavoriteShared.getBoolean(key, false)
+            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+            return sharedPreferences.getBoolean(key, false)
         }
     }
 }

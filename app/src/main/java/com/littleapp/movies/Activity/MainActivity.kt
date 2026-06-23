@@ -3,7 +3,7 @@ package com.littleapp.movies.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.littleapp.movies.R
 import com.littleapp.movies.Unit.DATA
 import com.littleapp.movies.Unit.THEME
@@ -22,6 +22,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         DATA.MAIN = this
-        navController = Navigation.findNavController(context, R.id.nav_host)
+        navController = findNavController(R.id.nav_host)
     }
 }

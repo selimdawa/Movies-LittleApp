@@ -17,19 +17,19 @@ import com.littleapp.movies.models.MovieItemModel
 
 class DetailFragment : Fragment() {
 
-    private var mBinding: FragmentDetailMovieBinding? = null
-    private val binding get() = mBinding!!
-    lateinit var currentMovie: MovieItemModel
+    private var _binding: FragmentDetailMovieBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var currentMovie: MovieItemModel
     private var isFavorite = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        mBinding = FragmentDetailMovieBinding.inflate(inflater, container, false)
+        _binding = FragmentDetailMovieBinding.inflate(inflater, container, false)
         currentMovie = arguments?.getSerializable("movie") as MovieItemModel
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,36 +42,43 @@ class DetailFragment : Fragment() {
         val valueBool = SaveShared.getFavorite(MAIN, currentMovie.id.toString())
         val viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
 
-        if (isFavorite != valueBool) {
-            binding.imgDetailFavorite.setImageResource(R.drawable.ic_baseline_favorite_24)
-        } else {
-            binding.imgDetailFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-        }
+        isFavorite = valueBool
+        updateFavoriteIcon()
 
-        Glide.with(MAIN).load("$IMAGE_MOVIE${currentMovie.poster_path}")
-            .placeholder(R.color.image_profile).into(binding.imgDetail)
+        Glide.with(this)
+            .load("$IMAGE_MOVIE${currentMovie.poster_path}")
+            .placeholder(R.color.image_profile)
+            .into(binding.imgDetail)
 
         binding.tvTitleDetail.text = currentMovie.title
         binding.tvDateDetail.text = currentMovie.release_date
         binding.tvDescription.text = currentMovie.overview
 
         binding.imgDetailFavorite.setOnClickListener {
-            isFavorite = if (isFavorite == valueBool) {
-                binding.imgDetailFavorite.setImageResource(R.drawable.ic_baseline_favorite_24)
+            if (!isFavorite) {
                 SaveShared.setFavorite(MAIN, currentMovie.id.toString(), true)
                 viewModel.insert(currentMovie) {}
-                true
+                isFavorite = true
             } else {
-                binding.imgDetailFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
                 viewModel.delete(currentMovie) {}
                 SaveShared.setFavorite(MAIN, currentMovie.id.toString(), false)
-                false
+                isFavorite = false
             }
+            updateFavoriteIcon()
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mBinding = null
+    private fun updateFavoriteIcon() {
+        val iconRes = if (isFavorite) {
+            R.drawable.ic_baseline_favorite_24
+        } else {
+            R.drawable.ic_baseline_favorite_border_24
+        }
+        binding.imgDetailFavorite.setImageResource(iconRes)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
