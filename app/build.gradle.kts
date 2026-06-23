@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp.processor)
 }
 
@@ -33,11 +32,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-        }
-    }
     buildFeatures {
         dataBinding = true
     }
@@ -55,12 +49,9 @@ dependencies {
     //Layout
     implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
-    implementation(libs.androidx.legacy.support.v4)
-    implementation(libs.androidx.cardview)
     implementation(libs.glide)                          //Glide Image
     ksp(libs.glide.ksp)                                 //Glide Compiler
     //Life Cycle
-    implementation(libs.androidx.lifecycle.extensions1)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     //Navigation
     implementation(libs.androidx.navigation.fragment.ktx)   //Navigation Fragment
@@ -76,6 +67,5 @@ dependencies {
     //Room
     implementation(libs.androidx.room.ktx)              //Room Kotlin
     implementation(libs.androidx.room.runtime)          //Room
-    annotationProcessor(libs.androidx.room.compiler)    //Room Compiler
     ksp(libs.androidx.room.compiler)                   //Room Compiler
 }
