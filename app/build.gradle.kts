@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.ksp.processor)
+    alias(libs.plugins.google.ksp)
+    alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.navigation.safeargs.kotlin)
 }
 
 android {
@@ -51,21 +53,27 @@ dependencies {
     implementation(libs.material)
     //Image
     implementation(libs.glide)                          //Glide Image
-    //Life Cycle
+    //Lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    //Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    //Room
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
     //Navigation
-    implementation(libs.androidx.navigation.fragment.ktx)   //Navigation Fragment
-    implementation(libs.androidx.navigation.ui.ktx)   //Navigation Components
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+
     implementation(libs.androidx.navigation.dynamic.features.fragment)
+
+    //Dagger - Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.hilt.navigation.fragment)
     //Retrofit
     implementation(libs.retrofit)  //Retrofit
     implementation(libs.converter.gson)  //Gson
     implementation(libs.logging.interceptor)
-    //Kotlin Coroutines
-    implementation(libs.kotlinx.coroutines.android)  //Android
-    implementation(libs.kotlinx.coroutines.core)  //Core
-    //Room
-    implementation(libs.androidx.room.ktx)              //Room Kotlin
-    implementation(libs.androidx.room.runtime)          //Room
-    ksp(libs.androidx.room.compiler)                   //Room Compiler
 }
