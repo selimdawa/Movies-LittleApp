@@ -1,31 +1,41 @@
 package com.littleapp.movies.screens.main
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.littleapp.movies.Unit.DATA.REALIZATION
 import com.littleapp.movies.data.retrofit.RetrofitRepository
-import com.littleapp.movies.data.room.MoviesRoomDatabase
-import com.littleapp.movies.data.room.repository.MoviesRepositoryRealization
-import com.littleapp.movies.models.MoviesModel
+import com.littleapp.movies.models.MoviesUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import retrofit2.Response
+import javax.inject.Inject
 
-class MainFragmentViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class MainFragmentViewModel @Inject constructor(
+    private val repository: RetrofitRepository
+) : ViewModel() {
 
-    private val repository = RetrofitRepository()
-    val myMovies: MutableLiveData<Response<MoviesModel>> = MutableLiveData()
-    val context = application
+    private val _uiState = MutableLiveData<MoviesUiState>()
+    val uiState: LiveData<MoviesUiState> get() = _uiState
 
-    fun getMoviesRetrofit() {
-        viewModelScope.launch {
-            myMovies.value = repository.getMovie()
-        }
+    init {
+        getMoviesRetrofit()
     }
 
-    fun initDatabase() {
-        val daoMovie = MoviesRoomDatabase.getInstance(context).getMovieDao()
-        REALIZATION = MoviesRepositoryRealization(daoMovie)
+    private fun getMoviesRetrofit() {
+        viewModelScope.launch {
+            _uiState.value = MoviesUiState.Loading
+            try {
+                val response = repository.getMovie()
+                if (response.isSuccessful) {
+                    val movies = response.body()?.results ?: emptyList()
+                    _uiState.value = MoviesUiState.Success(movies)
+                } else {
+                    _uiState.value = MoviesUiState.Error("Error: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                _uiState.value = MoviesUiState.Error(e.localizedMessage ?: "Unknown error")
+            }
+        }
     }
 }

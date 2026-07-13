@@ -5,23 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.littleapp.movies.R
-import com.littleapp.movies.Unit.DATA
 import com.littleapp.movies.databinding.FragmentFavoriteMovieBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavoriteFragment : Fragment() {
 
     private var _binding: FragmentFavoriteMovieBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: FavoriteFragmentViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     private val adapter by lazy {
         FavoriteAdapter { movie ->
-            val bundle = Bundle().apply {
-                putSerializable("movie", movie)
-            }
-            findNavController().navigate(R.id.action_favoriteFragment_to_detailFragment, bundle)
+            val action = FavoriteFragmentDirections.actionFavoriteFragmentToDetailFragment(movie)
+            findNavController().navigate(action)
         }
     }
 
@@ -39,12 +39,12 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun init() {
-        binding.toolbar.nameSpace.text = DATA.Favorite_movies
+        binding.toolbar.nameSpace.text = getString(R.string.favorite_movies)
         binding.rvFavorite.adapter = adapter
 
-        val viewModel = ViewModelProvider(this)[FavoriteFragmentViewModel::class.java]
         viewModel.getAllMovies().observe(viewLifecycleOwner) { list ->
             adapter.listMovies = list.asReversed()
+            binding.tvEmpty.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
         }
     }
 

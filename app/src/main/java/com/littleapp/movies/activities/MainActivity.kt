@@ -1,14 +1,15 @@
-package com.littleapp.movies.Activity
+package com.littleapp.movies.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.littleapp.movies.R
-import com.littleapp.movies.Unit.DATA
-import com.littleapp.movies.Unit.THEME
 import com.littleapp.movies.databinding.ActivityMainBinding
+import com.littleapp.movies.utils.THEME
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
@@ -21,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        DATA.MAIN = this
         navController = findNavController(R.id.nav_host)
     }
 }

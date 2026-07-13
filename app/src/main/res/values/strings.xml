@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">Movies - Little App</string>
-
-    //Theme
     <string name="basic_theme">Basic Theme</string>
     <string name="sec_theme">Sec Theme</string>
+    <string name="movies">Movies</string>
+    <string name="favorite_movies">Favorite movies</string>
+    <string name="details_movie">Details Movie</string>
+    <string name="no_favorites_yet">No favorites yet</string>
+    <string name="error_fetching_movies">Error fetching movies. Please try again.</string>
 </resources>

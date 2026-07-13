@@ -36,6 +36,9 @@
         android:name="com.littleapp.movies.screens.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail_movie">
+        <argument
+            android:name="movie"
+            app:argType="com.littleapp.movies.models.MovieItemModel" />
         <action
             android:id="@+id/action_detailFragment_to_mainFragment"
             app:destination="@id/mainFragment" />

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.littleapp.movies.R
-import com.littleapp.movies.Unit.DATA.IMAGE_MOVIE_BASIC
+import com.littleapp.movies.utils.DATA.IMAGE_MOVIE_BASIC
 import com.littleapp.movies.databinding.ItemMovieBinding
 import com.littleapp.movies.models.MovieItemModel
 

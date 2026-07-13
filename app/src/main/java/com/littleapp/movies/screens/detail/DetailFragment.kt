@@ -5,20 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.littleapp.movies.R
-import com.littleapp.movies.Unit.DATA
-import com.littleapp.movies.Unit.DATA.IMAGE_MOVIE
-import com.littleapp.movies.Unit.DATA.MAIN
 import com.littleapp.movies.databinding.FragmentDetailMovieBinding
-import com.littleapp.movies.SaveShared
 import com.littleapp.movies.models.MovieItemModel
+import com.littleapp.movies.utils.DATA.IMAGE_MOVIE
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailMovieBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: DetailViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+    private val args: DetailFragmentArgs by navArgs()
 
     private lateinit var currentMovie: MovieItemModel
     private var isFavorite = false
@@ -28,7 +30,7 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentDetailMovieBinding.inflate(inflater, container, false)
-        currentMovie = arguments?.getSerializable("movie") as MovieItemModel
+        currentMovie = args.movie
         return binding.root
     }
 
@@ -38,32 +40,20 @@ class DetailFragment : Fragment() {
     }
 
     private fun init() {
-        binding.toolbar.nameSpace.text = DATA.Details_Movie
-        val valueBool = SaveShared.getFavorite(MAIN, currentMovie.id.toString())
-        val viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
-
-        isFavorite = valueBool
+        binding.toolbar.nameSpace.text = getString(R.string.details_movie)
+        isFavorite = viewModel.isFavorite(currentMovie.id)
         updateFavoriteIcon()
 
-        Glide.with(this)
-            .load("$IMAGE_MOVIE${currentMovie.poster_path}")
-            .placeholder(R.color.image_profile)
-            .into(binding.imgDetail)
+        Glide.with(this).load("$IMAGE_MOVIE${currentMovie.poster_path}")
+            .placeholder(R.color.image_profile).into(binding.imgDetail)
 
         binding.tvTitleDetail.text = currentMovie.title
         binding.tvDateDetail.text = currentMovie.release_date
         binding.tvDescription.text = currentMovie.overview
 
         binding.imgDetailFavorite.setOnClickListener {
-            if (!isFavorite) {
-                SaveShared.setFavorite(MAIN, currentMovie.id.toString(), true)
-                viewModel.insert(currentMovie) {}
-                isFavorite = true
-            } else {
-                viewModel.delete(currentMovie) {}
-                SaveShared.setFavorite(MAIN, currentMovie.id.toString(), false)
-                isFavorite = false
-            }
+            viewModel.toggleFavorite(currentMovie, isFavorite)
+            isFavorite = !isFavorite
             updateFavoriteIcon()
         }
     }

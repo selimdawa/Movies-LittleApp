@@ -1,11 +1,13 @@
 package com.littleapp.movies.data.retrofit
 
-import com.littleapp.movies.data.retrofit.api.RetrofitInstance
+import com.littleapp.movies.data.retrofit.api.ApiService
 import com.littleapp.movies.models.MoviesModel
 import retrofit2.Response
+import javax.inject.Inject
 
-class RetrofitRepository {
+class RetrofitRepository @Inject constructor(private val apiService: ApiService) {
+
     suspend fun getMovie(): Response<MoviesModel> {
-        return RetrofitInstance.api.getPopularMovie()
+        return apiService.getPopularMovie()
     }
 }

@@ -6,8 +6,7 @@ import java.io.Serializable
 
 @Entity(tableName = "movie_table")
 data class MovieItemModel(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val overview: String,
     val poster_path: String,
     val release_date: String,

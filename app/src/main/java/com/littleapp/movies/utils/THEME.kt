@@ -1,4 +1,4 @@
-package com.littleapp.movies.Unit
+package com.littleapp.movies.utils
 
 import android.content.Context
 import androidx.preference.PreferenceManager

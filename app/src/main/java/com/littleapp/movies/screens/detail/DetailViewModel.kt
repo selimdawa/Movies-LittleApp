@@ -2,25 +2,32 @@ package com.littleapp.movies.screens.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.littleapp.movies.Unit.DATA.REALIZATION
+import com.littleapp.movies.data.room.repository.MoviesRepository
 import com.littleapp.movies.models.MovieItemModel
+import com.littleapp.movies.utils.SaveShared
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailViewModel : ViewModel() {
+@HiltViewModel
+class DetailViewModel @Inject constructor(
+    private val repository: MoviesRepository,
+    private val saveShared: SaveShared
+) : ViewModel() {
 
-    fun insert(movieItemModel: MovieItemModel, onSuccess: () -> Unit) {
-        viewModelScope.launch(Dispatchers.IO) {
-            REALIZATION.insertMovie(movieItemModel) {
-                onSuccess()
-            }
-        }
+    fun isFavorite(movieId: Int): Boolean {
+        return saveShared.getFavorite(movieId.toString())
     }
 
-    fun delete(movieItemModel: MovieItemModel, onSuccess: () -> Unit) {
+    fun toggleFavorite(movie: MovieItemModel, isCurrentlyFavorite: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            REALIZATION.deleteMovie(movieItemModel) {
-                onSuccess()
+            if (isCurrentlyFavorite) {
+                repository.deleteMovie(movie)
+                saveShared.setFavorite(movie.id.toString(), false)
+            } else {
+                repository.insertMovie(movie)
+                saveShared.setFavorite(movie.id.toString(), true)
             }
         }
     }
