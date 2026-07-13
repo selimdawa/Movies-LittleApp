@@ -16,7 +16,7 @@ class DetailViewModel @Inject constructor(
     private val saveShared: SaveShared
 ) : ViewModel() {
 
-    fun isFavorite(movieId: Int): Boolean {
+    suspend fun isFavorite(movieId: Int): Boolean {
         return saveShared.getFavorite(movieId.toString())
     }
 

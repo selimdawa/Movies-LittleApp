@@ -52,7 +52,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
     //Image
-    implementation(libs.glide)                          //Glide Image
+    implementation(libs.coil)                          //Coil Image
     //Lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -65,9 +65,6 @@ dependencies {
     //Navigation
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-
-    implementation(libs.androidx.navigation.dynamic.features.fragment)
-
     //Dagger - Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
@@ -76,4 +73,6 @@ dependencies {
     implementation(libs.retrofit)  //Retrofit
     implementation(libs.converter.gson)  //Gson
     implementation(libs.logging.interceptor)
+    //Other's
+    implementation(libs.androidx.datastore.preferences)
 }

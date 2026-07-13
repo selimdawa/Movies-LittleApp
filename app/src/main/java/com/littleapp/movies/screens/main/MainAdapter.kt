@@ -5,11 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.littleapp.movies.R
-import com.littleapp.movies.utils.DATA.IMAGE_MOVIE_BASIC
 import com.littleapp.movies.databinding.ItemMovieBinding
 import com.littleapp.movies.models.MovieItemModel
+import com.littleapp.movies.utils.DATA.IMAGE_MOVIE_BASIC
+import com.littleapp.movies.utils.loadImage
 
 class MainAdapter(private val onMovieClick: (MovieItemModel) -> Unit) :
     RecyclerView.Adapter<MainAdapter.ViewHolder>() {
@@ -47,10 +46,7 @@ class MainAdapter(private val onMovieClick: (MovieItemModel) -> Unit) :
             binding.tvTitle.text = model.title
             binding.tvDate.text = model.release_date
 
-            Glide.with(itemView.context)
-                .load("$IMAGE_MOVIE_BASIC${model.poster_path}")
-                .placeholder(R.color.image_profile)
-                .into(binding.itemImg)
+            binding.itemImg.loadImage("$IMAGE_MOVIE_BASIC${model.poster_path}")
 
             itemView.setOnClickListener {
                 val position = bindingAdapterPosition

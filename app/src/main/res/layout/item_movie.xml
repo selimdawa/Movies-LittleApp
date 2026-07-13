@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="5sp"
-    android:layout_marginBottom="10sp"
-    android:elevation="6sp"
-    app:cardCornerRadius="10sp">
+    android:layout_marginHorizontal="5dp"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="6dp"
+    app:strokeWidth="0dp">
 
     <LinearLayout
         android:id="@+id/item"
@@ -24,55 +24,50 @@
             <ImageView
                 android:id="@+id/item_img"
                 android:layout_width="match_parent"
-                android:layout_height="0sp"
+                android:layout_height="0dp"
+                android:contentDescription="@null"
                 android:scaleType="centerCrop"
                 android:src="@color/image_profile"
                 app:layout_constraintDimensionRatio="1:1.5"
-                tools:ignore="MissingConstraints" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="?background"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_title"
-                style="@style/TextAppearance.AppCompat.Title"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="10sp"
-                android:layout_marginVertical="5sp"
-                android:layout_weight="1"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="5dp"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1sp"
+                android:layout_height="1dp"
                 android:background="@color/white" />
 
             <TextView
                 android:id="@+id/tv_date"
-                style="@style/TextAppearance.AppCompat.Body2"
+                style="@style/TextAppearance.MaterialComponents.Body2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="10sp"
-                android:layout_marginVertical="5sp"
-                android:layout_weight="1"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="5dp"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textSize="14sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

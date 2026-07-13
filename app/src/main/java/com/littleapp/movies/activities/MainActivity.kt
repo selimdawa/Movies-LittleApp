@@ -3,7 +3,7 @@ package com.littleapp.movies.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.littleapp.movies.R
 import com.littleapp.movies.databinding.ActivityMainBinding
 import com.littleapp.movies.utils.THEME
@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        navController = findNavController(R.id.nav_host)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+        navController = navHostFragment.navController
     }
 }

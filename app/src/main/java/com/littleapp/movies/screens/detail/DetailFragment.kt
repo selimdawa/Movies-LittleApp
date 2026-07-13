@@ -6,13 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
 import com.littleapp.movies.R
 import com.littleapp.movies.databinding.FragmentDetailMovieBinding
 import com.littleapp.movies.models.MovieItemModel
 import com.littleapp.movies.utils.DATA.IMAGE_MOVIE
+import com.littleapp.movies.utils.loadImage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
@@ -41,11 +43,13 @@ class DetailFragment : Fragment() {
 
     private fun init() {
         binding.toolbar.nameSpace.text = getString(R.string.details_movie)
-        isFavorite = viewModel.isFavorite(currentMovie.id)
-        updateFavoriteIcon()
 
-        Glide.with(this).load("$IMAGE_MOVIE${currentMovie.poster_path}")
-            .placeholder(R.color.image_profile).into(binding.imgDetail)
+        viewLifecycleOwner.lifecycleScope.launch {
+            isFavorite = viewModel.isFavorite(currentMovie.id)
+            updateFavoriteIcon()
+        }
+
+        binding.imgDetail.loadImage("$IMAGE_MOVIE${currentMovie.poster_path}")
 
         binding.tvTitleDetail.text = currentMovie.title
         binding.tvDateDetail.text = currentMovie.release_date

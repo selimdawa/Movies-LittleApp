@@ -15,7 +15,7 @@
         android:id="@+id/rv_favorite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5sp"
+        android:layout_marginHorizontal="5dp"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         app:spanCount="2"
         tools:listitem="@layout/item_movie" />
@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="No favorites yet"
+        android:text="@string/no_favorites_yet"
         android:textColor="?colorOnSurface"
         android:visibility="gone" />
 

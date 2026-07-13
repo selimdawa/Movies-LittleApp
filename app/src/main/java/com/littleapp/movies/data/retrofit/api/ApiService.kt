@@ -6,6 +6,6 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface ApiService {
-    @GET(DATA.popular_MOVIES)
+    @GET(DATA.POPULAR_MOVIES)
     suspend fun getPopularMovie(): Response<MoviesModel>
 }
