@@ -1,5 +1,5 @@
 [versions]
-agp = "9.5.1"
+"9.5.2"
 coreKtx = "1.19.1"
 fragmentKtx = "1.9.1"
 junit = "4.13.2"
